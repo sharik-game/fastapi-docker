@@ -1,18 +1,15 @@
-# Dockerfile
+FROM python:3.10-alpine
 
-# pull the official docker image
-FROM python:3.10-slim
-
-# set work directory
-WORKDIR /app
-
-# set env variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install dependencies
+WORKDIR /build
+
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# copy project
-COPY . .
+# COPY ./app ./app
+
+CMD [ "uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0" ]
+
+EXPOSE 8000
