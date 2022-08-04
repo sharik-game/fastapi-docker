@@ -1,5 +1,3 @@
-# app/main.py
-
 from fastapi import FastAPI
 
 from app.db import database, User
@@ -10,12 +8,17 @@ app = FastAPI(title="FastAPI, Docker, and Traefik")
 
 
 @app.post("/user/")
-async def read_root(user: UserIn):
-    if user.choice:
-        user_input(user.hashed_password, user.email,
-                   user.price)  # return await User.objects.all()
+async def read_root(user_in: UserIn):
+    if user_in.dict()["choice"]:
+        try:
+            return await user_input(user_in)  # return await User.objects.all()
+        except Exception as ex:
+            print("..mistake :(")
+            print(str(ex))
+            return {"input": False}
     else:
-        user_register(user.email, user.hashed_password, user.price)
+        await user_register(user_in)
+        return await User.objects.all()
 
 
 @app.on_event("startup")

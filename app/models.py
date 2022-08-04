@@ -4,8 +4,8 @@ from pydantic import BaseModel, Field
 class UserIn(BaseModel):
     email: str
     hashed_password: str
-    choice: bool = Field(description="0 - register, 1 - input")
-    price: int
+    choice: bool | None # 1 - input, 0 - register
+    price: int | None
 
 
 class UserOut(BaseModel):
