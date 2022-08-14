@@ -1,12 +1,19 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
+
+from fastapi.responses import Response
 
 from app.db import database, User
 from app.models import UserIn, UserOut, UserInDB
 from app.endpoints import user_input, user_register
 
-app = FastAPI(title="FastAPI, Docker, and Traefik")
+# import json
+app = FastAPI(title="FastAPI, Docker")
 
-
+@app.get("/")
+def begining(q: str = Query(default="input")):
+    with open("app/frontend/login.html", "r") as file_html:
+        login_page = file_html.read()
+    return Response(login_page, media_type='text/html')
 @app.post("/user/")
 async def read_root(user_in: UserIn):
     if user_in.dict()["choice"]:

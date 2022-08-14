@@ -43,11 +43,19 @@
             let bth = document.querySelector('input[type=submit]');
             bth.addEventListener('click', async function (event) {
                 event.preventDefault();
-                let username = document.querySelector("input[name=username]").value;
+                let username = document.querySelector("input[name=email]").value;
                 let password = document.querySelector("input[name=password]").value;
-                console.log(username);
-                console.log(password);
-
+                // console.log(username);
+                // console.log(password);
+                const params = new Proxy(new URLSearchParams(window.location.search), {
+                  get: (searchParams, prop) => searchParams.get(prop),
+                });
+                // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+                let value = params.q; // "some_value"
+                var ans = Boolean(false)
+                if (value == "input"){
+                    ans = Boolean(true)
+                }
                 let response = await fetch("/user/",
                     {
                         method: "POST",
@@ -56,19 +64,16 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            "username": username,
-                            "password": password,
+                            "email": username,
+                            "hashed_password": password,
+                            "choice": ans,
                         })
                     });
 
                 let response_json = await response.json();
                 console.log(response_json);
-                if (response_json.success){
-                    let body = document.querySelector('body');
-                    body.style.backgroundColor = "white";
-                    body.style.display = "block";
-                    body.innerHTML = response_json.message;
-                }
+                
+                // console.log(params)
             })
         })
 
@@ -78,9 +83,9 @@
 <body>
     <div class="placeholder"></div>
     <form method="POST" action="/user">
-        <input type="text" name="username" />
+        <input type="text" name="email" />
         <input type="password" name="password" />
-        <input type="submit" value="Войти" />
+        <input type="submit" value="Ok" />
     </form>
     <div class="placeholder"></div>
 
