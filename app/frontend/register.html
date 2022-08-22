@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Вход</title>
+    <title>Регестрация</title>
     <meta charet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
@@ -45,6 +45,7 @@
                 event.preventDefault();
                 let username = document.querySelector("input[name=email]").value;
                 let password = document.querySelector("input[name=password]").value;
+                let price = document.querySelector("input[name=price]").value;
                 // console.log(username);
                 // console.log(password);
                 // const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -66,7 +67,8 @@
                         body: JSON.stringify({
                             "email": username,
                             "hashed_password": password,
-                            "choice": true,
+                            "choice": false,
+                            "price": price,
                         })
                     });
 
@@ -85,7 +87,8 @@
     <form method="POST" action="/user">
         <input type="text" name="email" />
         <input type="password" name="password" />
-        <input type="submit" value="Войти" />
+        <input type="text" name="price" />
+        <input type="submit" value="Зарегестрироваться" />
     </form>
     <div class="placeholder"></div>
 

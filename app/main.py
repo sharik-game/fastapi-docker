@@ -10,9 +10,13 @@ from app.endpoints import user_input, user_register
 app = FastAPI(title="FastAPI, Docker")
 
 @app.get("/")
-def begining(q: str = Query(default="input")):
-    with open("app/frontend/login.html", "r") as file_html:
-        login_page = file_html.read()
+def begining(q: bool = Query(default=True)):
+    if q:
+        with open("app/frontend/login.html", "r") as file_html:
+            login_page = file_html.read()
+    else:
+        with open("app/frontend/register.html", "r") as file_html2:
+            login_page = file_html2.read()
     return Response(login_page, media_type='text/html')
 @app.post("/user/")
 async def read_root(user_in: UserIn):
